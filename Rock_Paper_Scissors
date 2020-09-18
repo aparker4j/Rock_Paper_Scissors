@@ -1,0 +1,244 @@
+* Program Name: Rock Paper Scissors
+* 
+*  Description: Rock, paper, scissors game the takes user input- 'r', 'p'
+* 's', and compares it against the computer's randomly generated choice.
+*  The score is tallyed during game play and is displayed when the user
+*  presses 'q'. 
+* 
+*  Author: Andrew Parker	
+* 
+*  Date: 211850Z JUL20 
+* 
+* v 3-6 work on clearing input buffer
+* */
+
+
+
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <time.h>
+#include <ctype.h>
+#include <string.h>
+
+
+
+#define FLUSH while(getchar() !='\n')
+
+int Human_Input(); 
+int Machine_Plays();
+int Score_Board(int wins, int loses, int ties);
+
+
+int main(void)
+{
+
+    char humanChoice=0;
+    int machineChoice;
+    int wins = 0;
+    int loses = 0;
+    int ties =  0;
+   
+   
+    printf("-----------------------------------\n");
+	printf("Time to play Rock, Paper, Scissors!\n");
+	printf("-----------------------------------\n\n");
+	
+	
+
+	Score_Board(wins, loses, ties);
+	
+	
+   while (humanChoice != 'q')
+    {
+
+       humanChoice = Human_Input();
+      
+        switch(humanChoice)
+        {
+        case 'q':
+        {
+            printf("Good bye.\n\n");
+            Score_Board(wins, loses, ties);
+            break;
+        }
+        case 's':
+        {
+            machineChoice= Machine_Plays();
+          
+            if(machineChoice== 1)
+            {
+				printf("You chose scissors.\n");
+				printf("\nThe Machine chose rock.\n");
+                printf("\nThe Machine's rock beats your scissors.\n\n");
+                loses++;
+                
+                break;
+            }
+            if(machineChoice== 0)
+            {
+				printf("You chose scissors.\n");
+				printf("\nThe Machine chose scissors.\n");
+                printf("\nTie game.\n\n");
+                ties++;
+                break;
+            }
+            if(machineChoice== 2)
+            {
+				printf("You chose scissors.\n");
+                printf("\nThe Machine chose paper.\n");
+                printf("\nYour scissors beat the Machine's paper.\n\n");
+                wins++;
+                break;
+        }
+        }
+        case 'p':
+        {
+            machineChoice= Machine_Plays();
+            if(machineChoice== 1)
+            {
+				printf("You chose paper.\n");
+				printf("\nThe Machine chose scissors.\n\n");
+                printf("\nThe Machine's scissors beats your paper.\n\n");
+                loses++;     
+                break;
+            }
+            if(machineChoice== 0)
+            {
+				printf("You chose paper.\n");
+				printf("\nThe Machine chose paper.\n");
+                printf("\nTie game.\n\n");
+                ties++;
+                break;
+            }
+            if(machineChoice== 2)
+            {
+				printf("You chose paper.\n");
+				printf("\nThe Machine chose rock.\n");
+                printf("\nYour paper beat the Machine's rock.\n\n");
+                wins++;
+                break;
+        }
+        }
+        case 'r':
+        {
+            machineChoice= Machine_Plays();
+            if(machineChoice== 1)
+            {
+				printf("You chose rock.\n");
+				printf("\nThe Machine chose paper.\n");
+                printf("\nThe Machine's paper beats your rock.\n\n");
+                loses++;
+                break;
+            }
+            if(machineChoice== 0)
+            {
+				printf("You chose rock.\n");
+				printf("\nThe Machine chose rock.\n");
+                printf("\nTie game.\n\n");
+                ties++;
+				break;
+            }
+            if(machineChoice== 2)
+            {
+				printf("You chose rock.\n");
+				printf("\nThe Machine chose scissors.\n");
+                printf("\nYour rock beat the Machine's scissors.\n\n");
+                wins++;
+                break;
+        }
+        }
+        default:
+        {
+			Score_Board(wins, loses, ties);
+            
+			
+        }
+        }
+ }
+
+   return 0;
+   
+}
+
+
+/*
+ * name: Human_Input
+ * @param: Take no parameters
+ * @descrition: User inputs r, p, s or q. Fuction will change uppercase 
+ * to lower case. Prints error check when input is incorrect.
+ * @return: Returns human input to main funciton.
+ */
+int Human_Input() 
+
+{
+    char humanChoice;
+    char input;
+	char result;
+	
+	
+	 printf("    Press 'q' to quit\n"); 
+   	 printf("    Press 's' for Scissors\n"); 
+   	 printf("    Press 'p' for Paper\n");
+   	 printf("    Press 'r' for Rock\n\n");
+   	 
+	input = scanf("%c", &humanChoice);
+	FLUSH
+	;
+		
+		result = tolower(humanChoice);
+		humanChoice = result;
+		
+	
+	while((humanChoice !='r') && (humanChoice !='p') && (humanChoice!= 's') && (humanChoice != 'q')){
+	printf("Input Error. Press r, p, s or q to continue.\n");
+		
+		input = scanf("%c", &humanChoice);
+		FLUSH;
+		
+		result = tolower(humanChoice);
+		humanChoice = result;
+		
+		
+		
+	}
+    return humanChoice;
+}
+
+/*
+ * name: Machine_Plays
+ * @param: Takes in no parameters.
+ * @description: Creates a random number 0-2 for computer's rock, paper, or scissor.
+ * @return: Reutrns the computers random choice to the main function.
+ */
+
+int Machine_Plays()
+
+{
+    int machineChoice;
+    srand(time(NULL));
+    
+    machineChoice= rand()%3;
+    
+    return machineChoice;
+}
+
+/*
+ * name: Score_Board
+ * @param: wins, loses, ties
+ * @discription: Takes sum of all losses, wins, and ties of the user. Losses
+ * are titled as wins for the computer.
+ * @return: 0
+ */
+
+
+int Score_Board(int wins, int loses, int ties)
+{
+    printf("-----= The score board is now =-----\n");
+    printf(" | The Machine || You ||Tied Games| \n");
+    printf(" |     %d       ||  %d  ||    %d     | \n\n",loses, wins, ties);
+    
+
+   return 0;
+}
+   
